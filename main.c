@@ -1,52 +1,49 @@
+#include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
-#include <math.h>
 
-// static int size = 10;
-// int table[10] = {};
-// char dog[10] = "Maggy";
+// Dog
+struct dog {
+  char name[10]; // Name
+  int age;       // Age
+};
+typedef struct dog dog_t;
+
+// Link list node
+struct node {
+  dog_t dog;         // Dog
+  struct node *next; // Next dog
+};
+typedef struct node node_t;
 
 
-// uint64_t to_ascii(char string[]) {
-//     int letter, digit;
-//     uint64_t word;
-//     int lenght = strlen(string);
-//     for (int i = 0; i < lenght; ++i) {
-//         letter = (int)string[i];
-//         digit = log10(letter) + 1;
-//         word *= pow(10, digit);
-//         word += letter;
-//     }
-//     return word;
-// }
+// Transforms a string to ascii
+uint64_t to_ascii(char string[]) {
+  int letter, digit;
+  uint64_t word;
+  int lenght = strlen(string);
+  for (int i = 0; i < lenght; ++i) {
+    letter = (int)string[i];
+    digit = log10(letter) + 1;
+    word *= pow(10, digit);
+    word += letter;
+  }
+  return word;
+}
 
-// int hash(char string[]) {
-//     int key = to_ascii(string);
-//     return (key % size);
-// }
-
-// int insert(char string[], int table[]) {
-//     int ascii = to_ascii(string);
-//     int index = hash(string);
-//     table[index] = *string;
-//     return 0;
-// }
-
-// int remove(char string[], int table[]) {
-//     int index = hash(string);
-//     table[index] = 0;
-//     return 0;
-// }
-
-// int display(int table[]) {
-//     for (int i = 0; i < size; ++i) {
-//         printf("%d ", table[i]);
-//     }
-// }
+// Hash function
+int hash(dog_t *dog) {
+  int key = to_ascii(dog->name);
+  return key;
+}
 
 int main() {
-    printf("Hello World");
-    return 0;
+  dog_t *tmp;
+  strcpy(tmp->name, "Chloe");
+  tmp->age = 5;
+
+  printf("%s", tmp->name);
+  return 0;
 }
