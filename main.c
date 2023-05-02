@@ -65,7 +65,7 @@ void insert(char name[10], int age) {
   last->next = new_dog;
 }
 
-// Remove a dog by finding its hash
+// Remove a dog by finding its hash (faster)
 void remove_name(char name[10], dog_t *table) {
   dog_t *tmp, *last;
 
@@ -74,7 +74,7 @@ void remove_name(char name[10], dog_t *table) {
   tmp = last->next;
 
   while (tmp != NULL) {
-    if (index == hash(tmp->name)) {
+    if (strcmp(name, tmp->name) != 1) {
       last->next = tmp->next;
       free(tmp);
       return;
@@ -84,21 +84,22 @@ void remove_name(char name[10], dog_t *table) {
   }
 }
 
-// Remove dog by finding its age
+// Remove dog by finding its age (slower)
 void remove_age(int age, dog_t *table) {
   dog_t *tmp, *last;
 
-  last = &table[index];
-  tmp = last->next;
-
-  while (tmp != NULL) {
-    if (age == tmp->age) {
-      last->next = tmp->next;
-      free(tmp);
-      return;
+  for (int i = 0; i < SIZE; i++) {
+    last = &table[i];
+    tmp = last->next;
+    while (tmp != NULL) {
+      if (age == tmp->age) {
+        last->next = tmp->next;
+        free(tmp);
+        return;
+      }
+      last = tmp;
+      tmp = tmp->next;
     }
-    last = tmp;
-    tmp = tmp->next;
   }
 }
 
