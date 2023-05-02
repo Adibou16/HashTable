@@ -65,45 +65,97 @@ void insert(char name[10], int age) {
   last->next = new_dog;
 }
 
+// Remove a dog by finding its hash
+void remove_name(char name[10], dog_t *table) {
+  dog_t *tmp, *last;
+
+  int index = hash(name);
+  last = &table[index];
+  tmp = last->next;
+
+  while (tmp != NULL) {
+    if (index == hash(tmp->name)) {
+      last->next = tmp->next;
+      free(tmp);
+      return;
+    }
+    last = tmp;
+    tmp = tmp->next;
+  }
+}
+
+// Remove dog by finding its age
+void remove_age(int age, dog_t *table) {
+  dog_t *tmp, *last;
+
+  last = &table[index];
+  tmp = last->next;
+
+  while (tmp != NULL) {
+    if (age == tmp->age) {
+      last->next = tmp->next;
+      free(tmp);
+      return;
+    }
+    last = tmp;
+    tmp = tmp->next;
+  }
+}
+
 void print_table(dog_t *table) {
-  dog_t *head;
+  dog_t *head, *tmp;
   for (int i = 0; i < SIZE; i++) {
     head = &table[i];
-    if (head->next == NULL) {
-      i++;
-    }
-    dog_t *tmp = head->next;
+    tmp = head->next;
 
     while (tmp != NULL) {
-
-      printf("%s: %d\t", tmp->name, tmp->age);
+      printf("%s: %d,\t", tmp->name, tmp->age);
       tmp = tmp->next;
     }
   }
+  printf("\n");
 }
 
 int main() {
   node_initiaze(table);
-  char name[10] = "Chloe";
-  int age = 5;
-  insert(name, age);
+  char name[10];
+  int age, input;
 
-  strcpy(name, "Bingo");
-  age = 17;
-  insert(name, age);
+  while (1) {
+    printf("What do you want to do?\n");
+    printf(
+        "1. Insert\t2. Remove by name\t3. Remove by age\t4. Print\t5. Exit\n");
+    scanf("%d", &input);
 
-  strcpy(name, "Lily");
-  age = 3;
-  insert(name, age);
+    switch (input) {
+    case 1:
+      printf("Name:\n");
+      scanf("%s", name);
+      printf("Age:\n");
+      scanf("%d", &age);
+      insert(name, age);
+      break;
 
-  strcpy(name, "Kiki");
-  age = 6;
-  insert(name, age);
+    case 2:
+      printf("Name:\n");
+      scanf("%s", name);
+      remove_name(name, table);
+      break;
 
-  strcpy(name, "Itou");
-  age = 20;
-  insert(name, age);
+    case 3:
+      printf("Age:\n");
+      scanf("%d", &age);
+      remove_age(age, table);
+      break;
 
-  print_table(table);
+    case 4:
+      print_table(table);
+      break;
+
+    case 5:
+      return 1;
+    }
+  }
+
   return 0;
 }
